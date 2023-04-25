@@ -24,6 +24,18 @@
     <ClCompile Include="Textures\bmp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChunkManager\chunk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Text\text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChunkManager\worldManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shaders\shaders.h">
@@ -32,9 +44,43 @@
     <ClInclude Include="Textures\bmp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Camera\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkManager\chunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Text\text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkManager\worldManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\vert.shader" />
     <None Include="Shaders\frag.shader" />
+    <None Include="Textures\TextFrag.shader" />
+    <None Include="Textures\TextVert.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\block.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\grass_side.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\grass_top.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\texture_atlas.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\grass_bottom.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Text\Font.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

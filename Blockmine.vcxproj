@@ -74,7 +74,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_DEPRECATE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\libs\GLEW\include;C:\libs\GLFW\$(Platform)\include;C:\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -91,7 +91,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_DEPRECATE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\libs\GLEW\include;C:\libs\GLFW\$(Platform)\include;C:\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -108,7 +108,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_DEPRECATE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\libs\GLEW\include;C:\libs\GLFW\$(Platform)\include;C:\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -125,7 +125,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_DEPRECATE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\libs\GLEW\include;C:\libs\GLFW\$(Platform)\include;C:\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -139,17 +139,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera\camera.cpp" />
+    <ClCompile Include="ChunkManager\chunk.cpp" />
+    <ClCompile Include="ChunkManager\worldManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shaders\shaders.cpp" />
     <ClCompile Include="Textures\bmp.cpp" />
+    <ClCompile Include="Text\text.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera\camera.h" />
+    <ClInclude Include="ChunkManager\chunk.h" />
+    <ClInclude Include="ChunkManager\worldManager.h" />
     <ClInclude Include="Shaders\shaders.h" />
     <ClInclude Include="Textures\bmp.h" />
+    <ClInclude Include="Text\text.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\frag.shader" />
     <None Include="Shaders\vert.shader" />
+    <None Include="Textures\TextFrag.shader" />
+    <None Include="Textures\TextVert.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\block.bmp" />
+    <Image Include="Textures\grass_bottom.bmp" />
+    <Image Include="Textures\grass_side.bmp" />
+    <Image Include="Textures\grass_top.bmp" />
+    <Image Include="Textures\texture_atlas.bmp" />
+    <Image Include="Text\Font.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
