@@ -1,6 +1,6 @@
 #pragma once
-#include "chunk.h"
-#include "../Camera/camera.h"
+#include "chunk.hpp"
+#include "../Camera/camera.hpp"
 #include <vector>
 
 class worldManager {

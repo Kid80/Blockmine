@@ -1,4 +1,4 @@
-#include "chunk.h"
+#include "chunk.hpp"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -10,6 +10,8 @@
 
 #include <vector>
 #include <iostream>
+
+#include "../Textures/bmp.hpp"
 
 Chunk::Chunk(int x, int z) {
 	posX = x;
@@ -160,10 +162,13 @@ void Chunk::CreateBuffers() {
 	glGenBuffers(1, &texturebuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, texturebuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * uv_buffer_data.size(), uv_buffer_data.data(), GL_STATIC_DRAW);
+
+	texture = loadBMP_custom("C:/Users/ben_l/source/repos/Blockmine/Textures/texture_atlas.bmp");
 }
 
 void Chunk::Draw(unsigned int programID, unsigned int MatrixID, glm::mat4 Projection, glm::mat4 View) {
 	glm::mat4 mvp = Projection * View * Model;
+	glBindTexture(GL_TEXTURE_2D, texture);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glVertexAttribPointer(
@@ -196,6 +201,7 @@ void Chunk::Draw(unsigned int programID, unsigned int MatrixID, glm::mat4 Projec
 		GL_UNSIGNED_INT,
 		(void*)0
 	);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	//glDrawArrays(GL_TRIANGLES, 0, g_vertex_buffer_data.size() / 3);
 
 	glDisableVertexAttribArray(0);

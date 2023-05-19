@@ -1,4 +1,4 @@
-#include "shaders.h"
+#include "shaders.hpp"
 
 #include <string>
 #include <vector>
@@ -29,6 +29,7 @@ unsigned int LoadShaders(const char* vertex_file_path, const char* fragment_file
 	else {
 		printf("Impossible to open %s. Are you in the right directory ? Don't forget to read the FAQ !\n", vertex_file_path);
 		std::ignore = getchar();
+		exit(0);
 		return 0;
 	}
 

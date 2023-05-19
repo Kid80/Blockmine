@@ -21,6 +21,7 @@ public:
 	unsigned int elementbuffer;
 	unsigned int texturebuffer;
 	unsigned int Texture;
+	unsigned int programID;
 
 	TextManager();
 	int printf(char* message, float posX, float posY);

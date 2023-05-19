@@ -10,11 +10,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Shaders/shaders.h"
-#include "Textures/bmp.h"
-#include "Camera/camera.h"
-#include "ChunkManager/chunk.h"
-#include "Text/text.h"
+#include "Shaders/shaders.hpp"
+#include "Textures/bmp.hpp"
+#include "Camera/camera.hpp"
+#include "ChunkManager/chunk.hpp"
+#include "Text/text.hpp"
 
 Camera camera;
 float movementKeys[2];
@@ -136,7 +136,13 @@ double cursorXdelta;
 double cursorYdelta;
 
 void error_callback(int error, const char* description) {
-	fprintf(stderr, "Error: %s\n", description);
+	printf("Error: %s\n", description);
+	//__debugbreak();
+}
+
+void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
+	fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n", (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
+	///__debugbreak();
 }
 
 void updateCamera() {
@@ -161,8 +167,8 @@ void updateCamera() {
 	float kbdZ = 0.0f;
 	kbdZ += glfwGetKey(window, GLFW_KEY_Q);
 	kbdZ -= glfwGetKey(window, GLFW_KEY_E);
-	camera.horizontalAngle += 0.5f * deltaTime * (float)cursorXdelta;
-	camera.verticalAngle += 0.5f * deltaTime * (float)cursorYdelta;
+	camera.horizontalAngle -= 0.5f * deltaTime * (float)cursorXdelta;
+	camera.verticalAngle -= 0.5f * deltaTime * (float)cursorYdelta;
 
 	//std::cout << "X: " << camera.position.x << " Y: " << camera.position.y << " Z: " << camera.position.z << std::endl;
 	camera.getDirections();
@@ -219,7 +225,9 @@ int main() {
 		fprintf(stderr, "Failed to initialize GLEW\n");
 		return -1;
 	}
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glEnable(GL_DEBUG_OUTPUT);
+	glDebugMessageCallback(MessageCallback, 0);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
@@ -228,7 +236,7 @@ int main() {
 
 	Chunk chunk(0, 0);
 	Chunk chunk2(1, 0);
-	TextManager textManager;
+	TextManager textManager = TextManager();
 
 	/*GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
@@ -285,6 +293,7 @@ int main() {
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glBindTexture(GL_TEXTURE_2D, Texture);
+		
 		chunk.Draw(programID, MatrixID, Projection, View);
 		chunk2.Draw(programID, MatrixID, Projection, View);
 

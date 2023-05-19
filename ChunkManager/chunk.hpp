@@ -46,6 +46,8 @@ public:
 	unsigned int texturebuffer;
 	unsigned int elementbuffer;
 
+	unsigned int texture;
+
 	void getUVofTexture(int index, float& u, float& v, float& u2, float& v2);
 	void push_vertex(float x, float y, float z);
 	void push_index(unsigned int offset, unsigned int a, unsigned int b, unsigned int c);

@@ -1,8 +1,8 @@
-#include "camera.h"
+#include "camera.hpp"
 #include <iostream>
 
 void Camera::getDirections() {
-	std::cout << verticalAngle << std::endl;
+	//std::cout << verticalAngle << std::endl;
 	if (verticalAngle >  1.0f) {
 		verticalAngle = 1.0f;
 	}
