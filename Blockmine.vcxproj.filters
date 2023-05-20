@@ -33,7 +33,7 @@
     <ClCompile Include="Text\text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ChunkManager\worldManager.cpp">
+    <ClCompile Include="ChunkManager\gameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="Text\text.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ChunkManager\worldManager.hpp">
+    <ClInclude Include="ChunkManager\gameManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stb\stb_image.h">

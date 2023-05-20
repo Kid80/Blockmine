@@ -40,3 +40,31 @@ glm::mat4 Camera::getViewMat() {
 		up
 	);
 }
+
+Camera::Camera() {
+	position = glm::vec3(0, 0, 0);
+	horizontalAngle = 0.0f;
+	verticalAngle = 0.0f;
+	FoV = 45.0f;
+	speed = 3.0f;
+	mouseSpeed = 0.005f;
+
+	width = 0;
+	height = 0;
+
+	direction = glm::vec3(
+		cos(verticalAngle) * sin(horizontalAngle),
+		sin(verticalAngle),
+		cos(verticalAngle) * cos(horizontalAngle)
+	);
+	right = glm::vec3(
+		sin(horizontalAngle - 3.14f / 2.0f),
+		0,
+		cos(horizontalAngle - 3.14f / 2.0f)
+	);
+	up = glm::cross(right, direction);
+}
+
+Camera::~Camera() {
+
+}

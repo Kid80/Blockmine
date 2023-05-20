@@ -12,7 +12,7 @@
 
 TextManager::TextManager() {
 	text = {
-		text_t{0, (char*)"A", -0.5f, -0.5f}
+		text_t("A", 0.0f, 0.0f)
 	};
 	std::cout << "init\n";
 	vertex_buffer_data.push_back(0.0f);
@@ -69,7 +69,23 @@ void TextManager::CreateBuffers() {
 	Texture = loadBMP_custom("C:/Users/ben_l/source/repos/Blockmine/Text/Font.bmp");
 }
 
-void TextManager::
+unsigned int TextManager::printf(const char* message, float posX, float posY) {
+	text.push_back(text_t(message, posX, posY));
+	bool positionFound = false;
+	for (size_t i = 0; i < textIndices.size(); i++) {
+		if (textIndices[i] == -1 && !positionFound) {
+			positionFound = true;
+			textIndices[i] = text.size() - 1;
+		}
+	}
+	if (!positionFound) {
+		textIndices.push_back(text.size() - 1);
+	}
+}
+
+void TextManager::clear(int index) {
+
+}
 
 void TextManager::Draw() {
 	glActiveTexture(GL_TEXTURE0);
@@ -104,7 +120,7 @@ void TextManager::Draw() {
 
 	glDrawElements(
 		GL_TRIANGLES,
-		vertex_buffer_data.size(),
+		(GLsizei)vertex_buffer_data.size(),
 		GL_UNSIGNED_INT,
 		(void*)0
 	);

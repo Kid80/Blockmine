@@ -26,108 +26,6 @@ double lastTime;
 
 GLFWwindow* window;
 
-std::vector<float> g_vertex_buffer_data = {
-	// bottom
-	0.0f, 0.0f, 0.0f,
-	1.0f, 0.0f, 0.0f,
-	1.0f, 0.0f, 1.0f,
-	0.0f, 0.0f, 1.0f,
-
-	// top
-	0.0f, 1.0f, 0.0f,
-	0.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, 0.0f,
-
-	// front
-	0.0f, 0.0f, 0.0f,
-	0.0f, 1.0f, 0.0f,
-	0.0f, 1.0f, 1.0f,
-	0.0f, 0.0f, 1.0f,
-
-	// back
-	1.0f, 0.0f, 0.0f,
-	1.0f, 0.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, 0.0f,
-
-	// left
-	0.0f, 0.0f, 0.0f,
-	0.0f, 1.0f, 0.0f,
-	1.0f, 1.0f, 0.0f,
-	1.0f, 0.0f, 0.0f,
-
-	// right
-	0.0f, 0.0f, 1.0f,
-	0.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, 0.0f, 1.0f
-};
-std::vector<unsigned int> indices = {
-
-	// bottom
-	0, 1, 2,
-	0, 2, 3,
-
-	// top
-	4, 5, 6,
-	4, 6, 7,
-
-	// top
-	8, 10, 9,
-	8, 11, 10,
-
-	// back
-	12, 14, 13,
-	12, 15, 14,
-
-	// left
-	16, 17, 18,
-	16, 18, 19,
-
-	// right
-	20, 22, 21,
-	20, 23, 22
-};
-std::vector<float> g_uv_buffer_data = {
-	
-	// bottom
-	1.0f, 0.0f,
-	0.0f, 0.0f,
-	0.0f, 1.0f,
-	1.0f, 1.0f,
-
-	// top
-	1.0f, 0.0f,
-	1.0f, 1.0f,
-	0.0f, 1.0f,
-	0.0f, 0.0f,
-
-	// front
-	0.0f, 0.0f,
-	1.0f, 0.0f,
-	1.0f, 1.0f,
-	0.0f, 1.0f,
-
-	// back
-	0.0f, 0.0f,
-	1.0f, 0.0f,
-	1.0f, 1.0f,
-	0.0f, 1.0f,
-
-	// left
-	0.0f, 0.0f,
-	1.0f, 0.0f,
-	1.0f, 1.0f,
-	0.0f, 1.0f,
-
-	//right
-	0.0f, 0.0f,
-	1.0f, 0.0f,
-	1.0f, 1.0f,
-	0.0f, 1.0f
-};
-
 double cursorXpos;
 double cursorYpos;
 double cursorXposOld;
@@ -196,7 +94,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 // TODO: Refactor
 int main() {
 	camera = Camera();
-	camera.position = glm::vec3(0, 1, 0);
+	camera.position = glm::vec3(0, 2, 0);
 	glewExperimental = true;
 	if (!glfwInit()) {
 		fprintf(stderr, "Failed to initialise GLFW\n");
@@ -236,7 +134,7 @@ int main() {
 
 	Chunk chunk(0, 0);
 	Chunk chunk2(1, 0);
-	TextManager textManager = TextManager();
+	//TextManager textManager = TextManager();
 
 	/*GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
@@ -262,7 +160,7 @@ int main() {
 	chunk2.GenerateModel();
 	chunk2.CreateBuffers();
 
-	textManager.CreateBuffers();
+	//textManager.CreateBuffers();
 
 
 
@@ -297,7 +195,8 @@ int main() {
 		chunk.Draw(programID, MatrixID, Projection, View);
 		chunk2.Draw(programID, MatrixID, Projection, View);
 
-		textManager.Draw();
+		//textManager.Draw();
+
 		/*glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 		glVertexAttribPointer(

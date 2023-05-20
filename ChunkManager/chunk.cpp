@@ -79,9 +79,19 @@ void Chunk::GenerateFace(float x, float y, float z, float face, int texture) {
 	float u1, u2, v1, v2;
 
 	getUVofTexture(texture, u1, u2, v1, v2);
-
 	if (face == Top) {
 		y++;
+	}
+	else if (face == Front) {
+		x++;
+	}
+	else if (face == Right) {
+		z++;
+	}
+
+
+	if (face == Top) {
+		// y++;
 		push_vertex(x + 0, y + 0, z + 0);
 		push_vertex(x + 0, y + 0, z + 1);
 		push_vertex(x + 1, y + 0, z + 1);
@@ -94,7 +104,7 @@ void Chunk::GenerateFace(float x, float y, float z, float face, int texture) {
 		push_vertex(x + 0, y + 0, z + 1);
 	}
 	else if (face == Front) {
-		x++;
+		//x++;
 		push_vertex(x + 0, y + 0, z + 0);
 		push_vertex(x + 0, y + 1, z + 0);
 		push_vertex(x + 0, y + 1, z + 1);
@@ -113,7 +123,7 @@ void Chunk::GenerateFace(float x, float y, float z, float face, int texture) {
 		push_vertex(x + 1, y + 0, z + 0);
 	}
 	else if (face == Right) {
-		z++;
+		//z++;
 		push_vertex(x + 0, y + 0, z + 0);
 		push_vertex(x + 1, y + 0, z + 0);
 		push_vertex(x + 1, y + 1, z + 0);
@@ -133,12 +143,24 @@ void Chunk::GenerateModel() {
 		for (int y = 0; y < blocks[x].size(); y++) {
 			for (int z = 0; z < blocks[x][y].size(); z++) {
 				if (data[blocks[x][y][z]].visible) {
-					GenerateFace((float)x, (float)y, (float)z, Top, data[blocks[x][y][z]].topTexIndex);
-					GenerateFace((float)x, (float)y, (float)z, Bottom, data[blocks[x][y][z]].bottomTexIndex);
-					GenerateFace((float)x, (float)y, (float)z, Front, data[blocks[x][y][z]].frontTexIndex);
-					GenerateFace((float)x, (float)y, (float)z, Back, data[blocks[x][y][z]].backTexIndex);
-					GenerateFace((float)x, (float)y, (float)z, Left, data[blocks[x][y][z]].leftTexIndex);
-					GenerateFace((float)x, (float)y, (float)z, Right, data[blocks[x][y][z]].rightTexIndex);
+					if (y == (CHUNK_HEIGHT - 1) || !data[blocks[x][y + 1][z]].visible) {
+						GenerateFace((float)x, (float)y, (float)z, Top, data[blocks[x][y][z]].topTexIndex);
+					}
+					if (y == 0 || !data[blocks[x][y - 1][z]].visible) {
+						GenerateFace((float)x, (float)y, (float)z, Bottom, data[blocks[x][y][z]].bottomTexIndex);
+					}
+					if (x == (CHUNK_HEIGHT - 1) || !data[blocks[x + 1][y][z]].visible) {
+						GenerateFace((float)x, (float)y, (float)z, Front, data[blocks[x][y][z]].frontTexIndex);
+					}
+					if (x == 0 || !data[blocks[x - 1][y][z]].visible) {
+						GenerateFace((float)x, (float)y, (float)z, Back, data[blocks[x][y][z]].backTexIndex);
+					}
+					if (z == 0 || !data[blocks[x][y][z - 1]].visible) {
+						GenerateFace((float)x, (float)y, (float)z, Left, data[blocks[x][y][z]].leftTexIndex);
+					}
+					if (z == (CHUNK_HEIGHT - 1) || !data[blocks[x][y][z + 1]].visible) {
+						GenerateFace((float)x, (float)y, (float)z, Right, data[blocks[x][y][z]].rightTexIndex);
+					}
 				}
 			}
 		}

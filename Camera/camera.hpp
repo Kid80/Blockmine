@@ -4,12 +4,12 @@
 
 class Camera {
 public:
-	glm::vec3 position = glm::vec3(0, 0, 0);
-	float horizontalAngle = 0.0f;
-	float verticalAngle = 0.0f;
-	float FoV = 45.0f;
-	float speed = 3.0f;
-	float mouseSpeed = 0.005f;
+	glm::vec3 position;
+	float horizontalAngle;
+	float verticalAngle;
+	float FoV;
+	float speed;
+	float mouseSpeed;
 
 	int width;
 	int height;
@@ -23,4 +23,7 @@ public:
 
 	glm::mat4 getProjMat();
 	glm::mat4 getViewMat();
+
+	Camera();
+	~Camera();
 };
