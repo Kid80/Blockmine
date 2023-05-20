@@ -45,43 +45,6 @@ glm::mat4 Player::getViewMat() {
 	);
 }
 
-void updateCamera() {
-	glfwGetCursorPos(window, &cursorXpos, &cursorYpos);
-	if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {
-		cursorXdelta = cursorXpos - cursorXposOld;
-		cursorYdelta = cursorYpos - cursorYposOld;
-	}
-	else {
-		cursorXdelta = 0.0;
-		cursorYdelta = 0.0;
-	}
-	cursorXposOld = cursorXpos;
-	cursorYposOld = cursorYpos;
-
-	float kbdX = 0.0f;
-	kbdX += glfwGetKey(window, GLFW_KEY_W);
-	kbdX -= glfwGetKey(window, GLFW_KEY_S);
-	float kbdY = 0.0f;
-	kbdY -= glfwGetKey(window, GLFW_KEY_A);
-	kbdY += glfwGetKey(window, GLFW_KEY_D);
-	float kbdZ = 0.0f;
-	kbdZ += glfwGetKey(window, GLFW_KEY_Q);
-	kbdZ -= glfwGetKey(window, GLFW_KEY_E);
-	player.horizontalAngle -= 0.5f * deltaTime * (float)cursorXdelta;
-	player.verticalAngle -= 0.5f * deltaTime * (float)cursorYdelta;
-
-	//std::cout << "X: " << player.position.x << " Y: " << player.position.y << " Z: " << player.position.z << std::endl;
-	player.getDirections();
-	float speed = 5.0f;
-	player.move(
-		kbdX * deltaTime * speed,
-		kbdY * deltaTime * speed,
-		kbdZ * deltaTime * speed
-	);
-	player.width = width;
-	player.height = height;
-}
-
 void Player::update(float deltaTime) {
 	glfwGetCursorPos((GLFWwindow*)window, &cursorXpos, &cursorYpos);
 	glfwGetWindowSize((GLFWwindow*)window, &width, &height);
