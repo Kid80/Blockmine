@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-class Camera {
+class Player {
 public:
 	glm::vec3 position;
 	float horizontalAngle;
@@ -18,12 +18,22 @@ public:
 	glm::vec3 right;
 	glm::vec3 up;
 
+	double cursorXpos;
+	double cursorYpos;
+	double cursorXposOld;
+	double cursorYposOld;
+	double cursorXdelta;
+	double cursorYdelta;
+
+	void* window;
+
 	void getDirections();
 	void move(float x, float y, float z);
+	void update(float deltaTime);
 
 	glm::mat4 getProjMat();
 	glm::mat4 getViewMat();
 
-	Camera();
-	~Camera();
+	Player(void* window);
+	~Player();
 };

@@ -24,7 +24,7 @@
     <ClCompile Include="Textures\bmp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera\camera.cpp">
+    <ClCompile Include="Player\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ChunkManager\chunk.cpp">
@@ -44,7 +44,7 @@
     <ClInclude Include="Textures\bmp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera\camera.hpp">
+    <ClInclude Include="Player\player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ChunkManager\chunk.hpp">
