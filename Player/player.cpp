@@ -46,6 +46,9 @@ glm::mat4 Player::getViewMat() {
 }
 
 void Player::update(float deltaTime) {
+	if (window == nullptr) {
+		return;
+	}
 	glfwGetCursorPos((GLFWwindow*)window, &cursorXpos, &cursorYpos);
 	glfwGetWindowSize((GLFWwindow*)window, &width, &height);
 
@@ -64,8 +67,8 @@ void Player::update(float deltaTime) {
 	kbdX += glfwGetKey((GLFWwindow*)window, GLFW_KEY_W);
 	kbdX -= glfwGetKey((GLFWwindow*)window, GLFW_KEY_S);
 	float kbdY = 0.0f;
-	kbdY += glfwGetKey((GLFWwindow*)window, GLFW_KEY_A);
-	kbdY -= glfwGetKey((GLFWwindow*)window, GLFW_KEY_D);
+	kbdY += glfwGetKey((GLFWwindow*)window, GLFW_KEY_D);
+	kbdY -= glfwGetKey((GLFWwindow*)window, GLFW_KEY_A);
 	float kbdZ = 0.0f;
 	kbdZ += glfwGetKey((GLFWwindow*)window, GLFW_KEY_Q);
 	kbdZ -= glfwGetKey((GLFWwindow*)window, GLFW_KEY_E);
@@ -82,8 +85,9 @@ void Player::update(float deltaTime) {
 	);
 }
 
-Player::Player(void* window) {
-	position = glm::vec3(0, 0, 0);
+void Player::init(void* window, glm::vec3 position) {
+	this->position = position;
+	this->window = window;
 	horizontalAngle = 0.0f;
 	verticalAngle = 0.0f;
 	FoV = 45.0f;
@@ -104,7 +108,6 @@ Player::Player(void* window) {
 		cos(horizontalAngle - 3.14f / 2.0f)
 	);
 	up = glm::cross(right, direction);
-	this->window = window;
 }
 
 Player::~Player() {

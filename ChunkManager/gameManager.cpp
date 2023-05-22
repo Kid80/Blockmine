@@ -18,23 +18,6 @@
 #include "ChunkManager/chunk.hpp"
 #include "Text/text.hpp"
 
-Player player;
-float movementKeys[2];
-
-int width = 1024;
-int height = 768;
-float deltaTime;
-double lastTime;
-
-GLFWwindow* window;
-
-double cursorXpos;
-double cursorYpos;
-double cursorXposOld;
-double cursorYposOld;
-double cursorXdelta;
-double cursorYdelta;
-
 void error_callback(int error, const char* description) {
 	printf("Error: %s\n", description);
 	//__debugbreak();
@@ -43,43 +26,6 @@ void error_callback(int error, const char* description) {
 void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
 	fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n", (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
 	///__debugbreak();
-}
-
-void updateCamera() {
-	glfwGetCursorPos(window, &cursorXpos, &cursorYpos);
-	if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {
-		cursorXdelta = cursorXpos - cursorXposOld;
-		cursorYdelta = cursorYpos - cursorYposOld;
-	}
-	else {
-		cursorXdelta = 0.0;
-		cursorYdelta = 0.0;
-	}
-	cursorXposOld = cursorXpos;
-	cursorYposOld = cursorYpos;
-
-	float kbdX = 0.0f;
-	kbdX += glfwGetKey(window, GLFW_KEY_W);
-	kbdX -= glfwGetKey(window, GLFW_KEY_S);
-	float kbdY = 0.0f;
-	kbdY -= glfwGetKey(window, GLFW_KEY_A);
-	kbdY += glfwGetKey(window, GLFW_KEY_D);
-	float kbdZ = 0.0f;
-	kbdZ += glfwGetKey(window, GLFW_KEY_Q);
-	kbdZ -= glfwGetKey(window, GLFW_KEY_E);
-	player.horizontalAngle -= 0.5f * deltaTime * (float)cursorXdelta;
-	player.verticalAngle -= 0.5f * deltaTime * (float)cursorYdelta;
-
-	//std::cout << "X: " << player.position.x << " Y: " << player.position.y << " Z: " << player.position.z << std::endl;
-	player.getDirections();
-	float speed = 5.0f;
-	player.move(
-		kbdX * deltaTime * speed,
-		kbdY * deltaTime * speed,
-		kbdZ * deltaTime * speed
-	);
-	player.width = width;
-	player.height = height;
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -91,6 +37,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 	}
+}
+
+worldManager::worldManager() {
+
 }
 
 
@@ -116,9 +66,9 @@ void worldManager::begin() {
 		exit(-1);
 	}
 
-	glfwSetKeyCallback(window, key_callback);
+	glfwSetKeyCallback((GLFWwindow*)window, key_callback);
 
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent((GLFWwindow*)window);
 	glewExperimental = true;
 	if (glewInit() != GLEW_OK) {
 		fprintf(stderr, "Failed to initialise GLEW\n");
@@ -126,15 +76,14 @@ void worldManager::begin() {
 	}
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageCallback(MessageCallback, 0);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode((GLFWwindow*)window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
 
-	player = Player(window);
-	player.position = glm::vec3(0, 2, 0);
+	player.init(window, glm::vec3(0, 2, 0));
 
 	Chunk chunk(0, 0);
 	Chunk chunk2(1, 0);
@@ -154,13 +103,13 @@ void worldManager::begin() {
 
 	lastTime = glfwGetTime();
 	do {
-		glfwGetWindowSize(window, &width, &height);
+		glfwGetWindowSize((GLFWwindow*)window, &width, &height);
 		glViewport(0, 0, width, height);
 		double currentTime = glfwGetTime();
 		deltaTime = float(currentTime - lastTime);
 		lastTime = currentTime;
 
-		updateCamera();
+		player.update(deltaTime);
 
 		glm::mat4 Projection = player.getProjMat();
 		glm::mat4 View = player.getViewMat();
@@ -175,9 +124,9 @@ void worldManager::begin() {
 			// std::cout << "Delta time: " << deltaTime * 1000 << "ms" << std::endl;
 		}
 
-		glfwSwapBuffers(window);
+		glfwSwapBuffers((GLFWwindow*)window);
 		glfwPollEvents();
-	} while (glfwWindowShouldClose(window) == 0);
+	} while (glfwWindowShouldClose((GLFWwindow*)window) == 0);
 
 	glfwTerminate();
 }

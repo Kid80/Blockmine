@@ -34,6 +34,7 @@ public:
 	glm::mat4 getProjMat();
 	glm::mat4 getViewMat();
 
-	Player(void* window);
+	
+	void init(void* window, glm::vec3 position = glm::vec3(0, 2, 0));
 	~Player();
 };
