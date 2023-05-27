@@ -70,8 +70,8 @@ void Player::update(float deltaTime) {
 	kbdY += glfwGetKey((GLFWwindow*)window, GLFW_KEY_D);
 	kbdY -= glfwGetKey((GLFWwindow*)window, GLFW_KEY_A);
 	float kbdZ = 0.0f;
-	kbdZ += glfwGetKey((GLFWwindow*)window, GLFW_KEY_Q);
-	kbdZ -= glfwGetKey((GLFWwindow*)window, GLFW_KEY_E);
+	kbdZ += glfwGetKey((GLFWwindow*)window, GLFW_KEY_E);
+	kbdZ -= glfwGetKey((GLFWwindow*)window, GLFW_KEY_Q);
 	horizontalAngle -= 0.5f * deltaTime * (float)cursorXdelta;
 	verticalAngle -= 0.5f * deltaTime * (float)cursorYdelta;
 

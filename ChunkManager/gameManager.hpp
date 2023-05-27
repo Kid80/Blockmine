@@ -12,12 +12,13 @@ public:
 	void* window;
 
 	int width = 1024;
-	int height = 1024;
+	int height = 768;
 
 	float deltaTime;
 	double lastTime;
 
 	worldManager();
+	void m_key_callback(void* window, int key, int scancode, int action, int mods);
 	void begin();
 	~worldManager();
 };

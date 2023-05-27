@@ -35,7 +35,7 @@ Chunk::Chunk(int x, int z) {
 }
 
 Chunk::~Chunk() {
-
+	glDeleteBuffers(3, buffers);
 }
 
 enum Faces {Top = 0, Bottom, Front, Back, Left, Right};
@@ -138,11 +138,67 @@ void Chunk::GenerateFace(float x, float y, float z, float face, int texture) {
 	push_uv(u1, v1);
 }
 
+void Chunk::GenerateBlock(int x, int y, int z) {
+	if (!data[blocks[x][y][z]].visible) { return; }
+	if (y == (CHUNK_HEIGHT - 1) || !data[blocks[x][y + 1][z]].visible) {
+		int vertexBase = (int)vertex_buffer_data.size() / 3;
+		float u1, u2, v1, v2;
+		getUVofTexture(data[blocks[x][y][z]].topTexIndex, u1, u2, v1, v2);
+
+		push_vertex(x + 0, y + 1, z + 0);
+		push_vertex(x + 0, y + 1, z + 1);
+		push_vertex(x + 1, y + 1, z + 1);
+		push_vertex(x + 1, y + 1, z + 0);
+		push_index(vertexBase, 0, 1, 2);
+		push_index(vertexBase, 0, 2, 3);
+
+		push_uv(u2, v1);
+		push_uv(u2, v2);
+		push_uv(u1, v2);
+		push_uv(u1, v1);
+		//GenerateFace((float)x, (float)y, (float)z, Top, data[blocks[x][y][z]].topTexIndex);
+	}
+	if (y == 0 || !data[blocks[x][y - 1][z]].visible) {
+		int vertexBase = (int)vertex_buffer_data.size() / 3;
+		float u1, u2, v1, v2;
+		getUVofTexture(texture, u1, u2, v1, v2);
+
+		push_vertex(x + 0, y + 0, z + 0);
+		push_vertex(x + 1, y + 0, z + 0);
+		push_vertex(x + 1, y + 0, z + 1);
+		push_vertex(x + 0, y + 0, z + 1);
+		push_index(vertexBase, 0, 1, 2);
+		push_index(vertexBase, 0, 2, 3);
+
+		push_uv(u2, v1);
+		push_uv(u2, v2);
+		push_uv(u1, v2);
+		push_uv(u1, v1);
+		//GenerateFace((float)x, (float)y, (float)z, Bottom, data[blocks[x][y][z]].bottomTexIndex);
+	}
+	if (x == (CHUNK_HEIGHT - 1) || !data[blocks[x + 1][y][z]].visible) {
+		GenerateFace((float)x, (float)y, (float)z, Front, data[blocks[x][y][z]].sideTexIndices[0]);
+	}
+	if (x == 0 || !data[blocks[x - 1][y][z]].visible) {
+		GenerateFace((float)x, (float)y, (float)z, Back, data[blocks[x][y][z]].sideTexIndices[2]);
+	}
+	if (z == 0 || !data[blocks[x][y][z - 1]].visible) {
+		GenerateFace((float)x, (float)y, (float)z, Left, data[blocks[x][y][z]].sideTexIndices[3]);
+	}
+	if (z == (CHUNK_HEIGHT - 1) || !data[blocks[x][y][z + 1]].visible) {
+		GenerateFace((float)x, (float)y, (float)z, Right, data[blocks[x][y][z]].sideTexIndices[1]);
+	}
+}
+
 void Chunk::GenerateModel() {
+	vertex_buffer_data.clear();
+	index_buffer_data.clear();
+	uv_buffer_data.clear();
 	for (int x = 0; x < blocks.size(); x++) {
 		for (int y = 0; y < blocks[x].size(); y++) {
 			for (int z = 0; z < blocks[x][y].size(); z++) {
-				if (data[blocks[x][y][z]].visible) {
+				GenerateBlock(x, y, z);
+				/*if (data[blocks[x][y][z]].visible) {
 					if (y == (CHUNK_HEIGHT - 1) || !data[blocks[x][y + 1][z]].visible) {
 						GenerateFace((float)x, (float)y, (float)z, Top, data[blocks[x][y][z]].topTexIndex);
 					}
@@ -150,49 +206,65 @@ void Chunk::GenerateModel() {
 						GenerateFace((float)x, (float)y, (float)z, Bottom, data[blocks[x][y][z]].bottomTexIndex);
 					}
 					if (x == (CHUNK_HEIGHT - 1) || !data[blocks[x + 1][y][z]].visible) {
-						GenerateFace((float)x, (float)y, (float)z, Front, data[blocks[x][y][z]].frontTexIndex);
+						GenerateFace((float)x, (float)y, (float)z, Front, data[blocks[x][y][z]].sideTexIndices[0]);
 					}
 					if (x == 0 || !data[blocks[x - 1][y][z]].visible) {
-						GenerateFace((float)x, (float)y, (float)z, Back, data[blocks[x][y][z]].backTexIndex);
+						GenerateFace((float)x, (float)y, (float)z, Back, data[blocks[x][y][z]].sideTexIndices[2]);
 					}
 					if (z == 0 || !data[blocks[x][y][z - 1]].visible) {
-						GenerateFace((float)x, (float)y, (float)z, Left, data[blocks[x][y][z]].leftTexIndex);
+						GenerateFace((float)x, (float)y, (float)z, Left, data[blocks[x][y][z]].sideTexIndices[3]);
 					}
 					if (z == (CHUNK_HEIGHT - 1) || !data[blocks[x][y][z + 1]].visible) {
-						GenerateFace((float)x, (float)y, (float)z, Right, data[blocks[x][y][z]].rightTexIndex);
+						GenerateFace((float)x, (float)y, (float)z, Right, data[blocks[x][y][z]].sideTexIndices[1]);
 					}
-				}
+				}*/
 			}
 		}
 	}
+	if (!buffersGenerated) {
+		GenerateBuffers();
+	}
 }
 
-void Chunk::CreateBuffers() {
-	glGenVertexArrays(1, &VertexArrayID);
+void Chunk::GenerateBuffers() {
+	if (!buffersGenerated) {
+		glGenVertexArrays(1, &VertexArrayID);
+		glGenBuffers(3, buffers);
+	}
+	//glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex_buffer_data.size(), vertex_buffer_data.data(), GL_STATIC_DRAW);
 
-
-	glGenBuffers(1, &elementbuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[2]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * index_buffer_data.size(), index_buffer_data.data(), GL_STATIC_DRAW);
 
-	glGenBuffers(1, &texturebuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, texturebuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * uv_buffer_data.size(), uv_buffer_data.data(), GL_STATIC_DRAW);
 
 	texture = loadBMP_custom("C:/Users/ben_l/source/repos/Blockmine/Textures/texture_atlas.bmp");
+}
+
+void Chunk::RegenerateBuffers() {
+	GenerateModel();
+	glBindVertexArray(VertexArrayID);
+
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex_buffer_data.size(), vertex_buffer_data.data(), GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[2]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * index_buffer_data.size(), index_buffer_data.data(), GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * uv_buffer_data.size(), uv_buffer_data.data(), GL_STATIC_DRAW);
 }
 
 void Chunk::Draw(unsigned int programID, unsigned int MatrixID, glm::mat4 Projection, glm::mat4 View) {
 	glm::mat4 mvp = Projection * View * Model;
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
 	glVertexAttribPointer(
 		0,
 		3,
@@ -202,7 +274,7 @@ void Chunk::Draw(unsigned int programID, unsigned int MatrixID, glm::mat4 Projec
 		(void*)0
 	);
 	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, texturebuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
 	glVertexAttribPointer(
 		1,
 		2,
@@ -212,7 +284,7 @@ void Chunk::Draw(unsigned int programID, unsigned int MatrixID, glm::mat4 Projec
 		(void*)0
 	);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[2]);
 
 	glUseProgram(programID);
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);

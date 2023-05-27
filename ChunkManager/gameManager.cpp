@@ -29,21 +29,24 @@ void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum se
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-		if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL) {
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		}
-		else {
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		}
-	}
+	worldManager* worldmanager = (worldManager*)glfwGetWindowUserPointer(window);
+	worldmanager->m_key_callback(window, key, scancode, action, mods);
 }
 
 worldManager::worldManager() {
 
 }
 
-
+void worldManager::m_key_callback(void* window, int key, int scancode, int action, int mods) {
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+		if (glfwGetInputMode((GLFWwindow*)window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL) {
+			glfwSetInputMode((GLFWwindow*)window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
+		else {
+			glfwSetInputMode((GLFWwindow*)window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+	}
+}
 
 void worldManager::begin() {
 	glewExperimental = true;
@@ -76,7 +79,7 @@ void worldManager::begin() {
 	}
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageCallback(MessageCallback, 0);
-	glfwSetInputMode((GLFWwindow*)window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode((GLFWwindow*)window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
@@ -89,10 +92,10 @@ void worldManager::begin() {
 	Chunk chunk2(1, 0);
 
 	chunk.GenerateModel();
-	chunk.CreateBuffers();
+	chunk.GenerateBuffers();
 
 	chunk2.GenerateModel();
-	chunk2.CreateBuffers();
+	chunk2.GenerateBuffers();
 
 
 	GLuint programID = LoadShaders("C:/Users/ben_l/source/repos/Blockmine/Shaders/vert.shader", "C:/Users/ben_l/source/repos/Blockmine/Shaders/frag.shader");
