@@ -110,6 +110,10 @@ void Player::init(void* window, glm::vec3 position) {
 	up = glm::cross(right, direction);
 }
 
+void Player::onRightClick() {
+
+}
+
 Player::~Player() {
 
 }

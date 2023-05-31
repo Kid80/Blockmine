@@ -36,5 +36,6 @@ public:
 
 	
 	void init(void* window, glm::vec3 position = glm::vec3(0, 2, 0));
+	void onRightClick();
 	~Player();
 };

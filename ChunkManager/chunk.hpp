@@ -7,33 +7,13 @@ constexpr int CHUNK_DEPTH = 16;
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
-enum Blocks {
-	air = 0,
-	grass = 1,
-	dirt = 2
-};
-
-struct blockData {
-	bool visible;
-	int topTexIndex;
-	int bottomTexIndex;
-	// Front, right, left, back
-	int sideTexIndices[4];
-
-};
-
-static blockData data[3]{
-	{false, 0, 0, 0, 0, 0, 0 },
-	{true, 0, 2, 1, 1, 1, 1},
-	{true, 2, 2, 2, 2, 2, 2}
-};
+#include "Blocks.hpp"
 
 class Chunk {
 public:
 	//blockData* blocksData;
 	std::vector<std::vector<std::vector<Blocks>>> blocks;
-	int posX, posZ;
+	int posX, posY, posZ;
 
 	std::vector<float> vertex_buffer_data;
 	std::vector<int> index_buffer_data;
@@ -64,9 +44,9 @@ public:
 	void GenerateFace(float x, float y, float z, float face, int texture);
 	void GenerateModel();
 	void GenerateBuffers();
-	void RegenerateBuffers();
+	void PlaceBlock(int x, int y, int z, Blocks block);
 	void Draw(unsigned int programID, unsigned int MatrixID, glm::mat4 projection, glm::mat4 view);
 
-	Chunk(int x, int z);
+	Chunk(int x, int y, int z);
 	~Chunk();
 };

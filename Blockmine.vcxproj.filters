@@ -65,6 +65,8 @@
     <None Include="Shaders\frag.shader" />
     <None Include="Textures\TextFrag.shader" />
     <None Include="Textures\TextVert.shader" />
+    <None Include="Shaders\basicColourFrag.shader" />
+    <None Include="Shaders\basicColourVert.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\block.bmp">

@@ -157,6 +157,8 @@
     <ClInclude Include="Text\text.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\basicColourFrag.shader" />
+    <None Include="Shaders\basicColourVert.shader" />
     <None Include="Shaders\frag.shader" />
     <None Include="Shaders\vert.shader" />
     <None Include="Textures\TextFrag.shader" />

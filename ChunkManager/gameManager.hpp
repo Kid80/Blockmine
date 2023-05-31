@@ -2,8 +2,17 @@
 #include "chunk.hpp"
 #include "Player/player.hpp"
 #include <vector>
+#include "Blocks.hpp"
 
-class worldManager {
+struct BlockSide {
+	int x;
+	int y;
+	int z;
+	Blocks block;
+	Faces side;
+};
+
+class gameManager {
 public:
 	Player player;
 
@@ -17,8 +26,11 @@ public:
 	float deltaTime;
 	double lastTime;
 
-	worldManager();
+
+	gameManager();
 	void m_key_callback(void* window, int key, int scancode, int action, int mods);
+	void m_mouse_callback(void* window, int button, int action, int mods);
 	void begin();
-	~worldManager();
+	Blocks raycast(glm::vec3 origin, glm::vec3 direction);
+	~gameManager();
 };

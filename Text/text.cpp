@@ -81,6 +81,7 @@ unsigned int TextManager::printf(const char* message, float posX, float posY) {
 	if (!positionFound) {
 		textIndices.push_back(text.size() - 1);
 	}
+	return 0;
 }
 
 void TextManager::clear(int index) {
