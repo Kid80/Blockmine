@@ -200,6 +200,7 @@ void Chunk::GenerateBuffers() {
 		buffersGenerated = true;
 		glGenVertexArrays(1, &VertexArrayID);
 		glGenBuffers(3, buffers);
+		texture = loadBMP_custom("C:/Users/ben_l/source/repos/Blockmine/Textures/texture_atlas.bmp");
 	}
 	//glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
@@ -213,10 +214,9 @@ void Chunk::GenerateBuffers() {
 	glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * uv_buffer_data.size(), uv_buffer_data.data(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-
-	texture = loadBMP_custom("C:/Users/ben_l/source/repos/Blockmine/Textures/texture_atlas.bmp");
 }
 
 void Chunk::Draw(unsigned int programID, unsigned int MatrixID, glm::mat4 Projection, glm::mat4 View) {

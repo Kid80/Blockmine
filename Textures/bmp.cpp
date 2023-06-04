@@ -8,13 +8,13 @@
 
 #include "bmp.hpp"
 #include "../stb/stb_image.h"
+#include <iostream>
 
 // Loads a bitmap into a texture
 // Throws 1 if image not found
 unsigned int loadBMP_custom(const char* imagepath) {
 	int width, height, nrChannels;
 	unsigned char* data = stbi_load(imagepath, &width, &height, &nrChannels, 0);
-
 	unsigned int texture;
 	glGenTextures(1, &texture);
 

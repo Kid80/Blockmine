@@ -36,6 +36,9 @@
     <ClCompile Include="ChunkManager\gameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UI\HUD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shaders\shaders.hpp">
@@ -59,14 +62,20 @@
     <ClInclude Include="stb\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ChunkManager\Blocks.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\HUD.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\vert.shader" />
     <None Include="Shaders\frag.shader" />
     <None Include="Textures\TextFrag.shader" />
     <None Include="Textures\TextVert.shader" />
-    <None Include="Shaders\basicColourFrag.shader" />
-    <None Include="Shaders\basicColourVert.shader" />
+    <None Include="Shaders\hudFrag.shader" />
+    <None Include="Shaders\hudVert.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\block.bmp">

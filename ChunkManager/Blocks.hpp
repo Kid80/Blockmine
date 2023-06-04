@@ -7,6 +7,9 @@
 // Left - Z = 0
 // Right - Z = 1
 enum Faces { Top = 0, Bottom, Front, Back, Left, Right };
+static int facesOffsetX[6]{ 0, 0, 1, -1, 0, 0 };
+static int facesOffsetY[6]{ 1, -1, 0, 0, 0, 0 };
+static int facesOffsetZ[6]{ 0, 0, 0, 0, -1, 1 };
 
 enum Blocks {
 	air = 0,

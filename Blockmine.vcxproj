@@ -146,8 +146,10 @@
     <ClCompile Include="Shaders\shaders.cpp" />
     <ClCompile Include="Textures\bmp.cpp" />
     <ClCompile Include="Text\text.cpp" />
+    <ClCompile Include="UI\HUD.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChunkManager\Blocks.hpp" />
     <ClInclude Include="Player\player.hpp" />
     <ClInclude Include="ChunkManager\chunk.hpp" />
     <ClInclude Include="ChunkManager\gameManager.hpp" />
@@ -155,10 +157,11 @@
     <ClInclude Include="stb\stb_image.h" />
     <ClInclude Include="Textures\bmp.hpp" />
     <ClInclude Include="Text\text.hpp" />
+    <ClInclude Include="UI\HUD.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\basicColourFrag.shader" />
-    <None Include="Shaders\basicColourVert.shader" />
+    <None Include="Shaders\hudFrag.shader" />
+    <None Include="Shaders\hudVert.shader" />
     <None Include="Shaders\frag.shader" />
     <None Include="Shaders\vert.shader" />
     <None Include="Textures\TextFrag.shader" />
